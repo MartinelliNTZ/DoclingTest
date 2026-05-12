@@ -69,7 +69,7 @@ class MainWindow(QMainWindow):
         central = QWidget()
         self.setCentralWidget(central)
         layout = QVBoxLayout(central)
-
+#
         path_row = QHBoxLayout()
         self.path_label = QLabel("Nenhum arquivo selecionado.")
         self.path_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
