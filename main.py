@@ -175,16 +175,20 @@ def export_markdown_by_columns(
     for lab, (cx, top, snip) in zip(labels, blocks, strict=True):
         by_col[lab].append((top, snip))
 
-    parts: list[str] = []
+    # Separadores bem visíveis em previews Markdown (--- vira <hr> na maioria dos leitores).
+    rule = "\n\n---\n\n"
     names = ("Esquerda", "Centro", "Direita", "Coluna 4", "Coluna 5", "Coluna 6")
+    sections: list[str] = []
     for r, old_idx in enumerate(order):
         title = names[r] if r < len(names) else f"Coluna {r + 1}"
-        parts.append(f"### Painel {r + 1} — {title}\n")
         col_blocks = sorted(by_col[old_idx], key=lambda x: x[0])
         texts = [t for _, t in col_blocks]
-        parts.append("\n\n".join(texts))
+        body = "\n\n".join(texts)
+        sections.append(
+            f"## **Painel {r + 1}** — _{title}_\n\n{body}\n"
+        )
 
-    return "\n\n".join(parts)
+    return rule.join(sections).strip() + "\n"
 
 
 def _build_converter(*, columnar_layout: bool):
